@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Card Slider</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for continuous sliding */
+        .scrolling-wrapper {
+            display: flex;
+            gap: 10px;
+            animation: slide 20s linear infinite;
+        }
+
+        .card:hover .card-content {
+            opacity: 1;
+        }
+
+        /* Animation to slide continuously */
+        @keyframes slide {
+            100% { transform: translateX(0%); }
+            0% { transform: translateX(-100%); }
+        }
+
+        /* Pause animation on hover */
+        .scrolling-wrapper:hover {
+            animation-play-state: paused;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="w-full max-w-none overflow-hidden">
+        <div class="scrolling-wrapper">
+            <!-- Manually adding 20 cards -->
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 1</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 2</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <!-- Add more cards up to 20 -->
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 20</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 1</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 2</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <!-- Add more cards up to 20 -->
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 20</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 1</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 2</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <!-- Add more cards up to 20 -->
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 20</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 1</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 2</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <!-- Add more cards up to 20 -->
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 20</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 1</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 2</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+            <!-- Add more cards up to 20 -->
+            <div class="card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+                <img src="https://www.freetogame.com/g/588/thumbnail.jpg" alt="Game Image" class="card-image w-full h-full object-cover">
+                <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
+                    <h3 class="text-xl font-bold mb-2">This is Game 20</h3>
+                    <p>Browser Game</p>
+                    <p>Released on 21 Oct 2024</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
