@@ -127,20 +127,28 @@ async function menupcData() {
         const data = await fetchDataFromAPI(url); // Reuse the fetch function
         const swiperPC = document.querySelector('.pcmenu');
         const genreMap = {};  
+        
         data.forEach(game => {     
             const genre = game.genre.toLowerCase();
+            
             if (!genreMap[genre]) {
+                console.log("menu");
+                console.log(genre)
                 const pcButton = document.createElement('li');
                 pcButton.className = 'block px-4 py-2 hover:bg-gray-100';    
                 pcButton.innerHTML = `
-                   <a href="#" class="block px-4 py-2 hover:bg-gray-100">${game.genre}</a> `;
+                    <a href="games.html?platform=pc&category=${encodeURIComponent(game.genre.toLowerCase())}" 
+                       class="block px-4 py-2 hover:bg-gray-100">
+                       ${game.genre}
+                    </a>`;
                 swiperPC.appendChild(pcButton);
                 genreMap[genre] = true;
             }
         });
     } catch (error) {
-        console.error('Error during marquee initialization:', error);
+        console.error("Error fetching data or generating menu items:", error);
     }
+    
 }
 async function menuBrowserData() {
     const url = 'https://free-to-play-games-database.p.rapidapi.com/api/games?platform=browser&sort-by=release-date';
@@ -149,16 +157,17 @@ async function menuBrowserData() {
         const swiperPC = document.querySelector('.browsermenu');
         const genreSet = new Set();   
         data.forEach(game => {   
+         
             if (game.genre.toLowerCase() === 'fantasy') {
             }
             const genre = game.genre.toLowerCase();
             if (!genreSet.has(genre)) {
                 genreSet.add(genre);
-
+            
                 const pcButton = document.createElement('li');
                 pcButton.className = 'block px-4 py-2 hover:bg-gray-100';    
                 pcButton.innerHTML = `
-                   <a href="#" class="block px-4 py-2 hover:bg-gray-100">${game.genre}</a> `;
+                   <a href="games.html?platform=browser&category=${encodeURIComponent(game.genre.toLowerCase())}" class="block px-4 py-2 hover:bg-gray-100">${game.genre}</a> `;
                 swiperPC.appendChild(pcButton);
             }
         });
