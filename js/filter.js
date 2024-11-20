@@ -29,7 +29,7 @@ async function gameplatform() {
                 cat.value = genre;
                 cat.textContent = genre;
                 gamecat.appendChild(cat); 
-                console.log(genre ,"test");
+               
             }
             else if(!gameYear[yeardata]){
                 gameYear[yeardata] = true;
