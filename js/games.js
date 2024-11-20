@@ -1,57 +1,43 @@
-// console.log("rfearr");
-// async function pcgames(){
-//     const url = 'https://free-to-play-games-database.p.rapidapi.com/api/games?platform=pc&sort-by=release-date';
-// try{
-//     console.log("game");
-//     const data = await fetchDataFromAPI(url);
-//     data.forEach(game => {
-//         console.log(game);
-//     }); 
-// }
-// catch {
-//     console.log('Error fetching data');
-// }
-// }
-
-// async function browgames(){
-//     const url = 'https://free-to-play-games-database.p.rapidapi.com/api/games?platform=pc&sort-by=release-date';
-// try{
-//     console.log("game");
-//     const data = await fetchDataFromAPI(url);
-//     data.forEach(game => {
-//         console.log(game);
-//     }); 
-// }
-// catch {
-//     console.log('Error fetching data');
-// }
-// }
-// Function to get query parameters from URL
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 }
 
-// Main function to fetch games based on platform and category from URL
 async function fetchFilteredGames() {
     // Get platform and category from URL parameters
-    const platform = getQueryParam('platform') || 'pc'; // Default to 'pc' if not specified
-    const category = getQueryParam('category') || "shooter";
-    console.log(platform);
-    console.log(category);
+    const platform = getQueryParam('platform') || ""; // Default to 'pc' if not specified
+    const category = getQueryParam('category') || "";
     try{
-    const url = `https://free-to-play-games-database.p.rapidapi.com/api/games?platform=${platform}&category=${category}`;
+    const url = `https://free-to-play-games-database.p.rapidapi.com/api/games`;
         const data = await fetchDataFromAPI(url);
+        //use direct fiter and avoid loop
+        // let filteredStrings = data.filter(game => game.platform.toLowerCase().includes(platform.toLowerCase()));
+        // console.log(filteredStrings);
+        const gamecard = document.querySelector('.game-card');
         data.forEach(game => {
-            console.log(game);
+            if (
+                (platform === "" || game.platform.toLowerCase().includes(platform.toLowerCase())) &&
+                (category === "" || game.genre.toLowerCase().includes(category.toLowerCase()))
+            )    {
+             const card = document.createElement('div');
+             card.className = 'bg-gray-800 border border-gray-600 rounded-lg p-4 ';
+                card.innerHTML = `
+                <a href="game-details.html?id=${game.id}">
+                    <img src="${game.thumbnail}" alt="Game Image">
+                        <h2 class="text-xl font-semibold text-white">${game.title}</h2>
+                        <p class="text-gray-400 mt-2">${game.genre}</p>
+                        <p>${game.platform}</p>
+                        <p>${game.release_date}</p>
+                </a>
+                `;
+            gamecard.appendChild(card);
+             }
         }); 
     }
     catch {
         console.log('Error fetching data');
     }
 }
-
-// Call the function to fetch filtered games
 fetchFilteredGames();
 
 

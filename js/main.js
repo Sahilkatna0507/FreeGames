@@ -163,7 +163,6 @@ async function menuBrowserData() {
             const genre = game.genre.toLowerCase();
             if (!genreSet.has(genre)) {
                 genreSet.add(genre);
-            
                 const pcButton = document.createElement('li');
                 pcButton.className = 'block px-4 py-2 hover:bg-gray-100';    
                 pcButton.innerHTML = `

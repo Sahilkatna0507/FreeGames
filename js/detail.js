@@ -1,5 +1,4 @@
-
-    async function gameIdData() {
+async function gameIdData() {
         const gameid = "422";
         const aurl = `https://free-to-play-games-database.p.rapidapi.com/api/game?id=${gameid}`;
         try {
@@ -18,5 +17,5 @@
         catch (error) {
             console.error('Error during swiper initialization:', error);
         }
-    } 
-    gameIdData();
+} 
+gameIdData();
