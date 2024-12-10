@@ -7,7 +7,6 @@ async function fetchDataFromAPI(url) {
             'x-rapidapi-host': 'free-to-play-games-database.p.rapidapi.com'
         }
     };
-
     try {
         const response = await fetch(url, options);
         const data = await response.json();

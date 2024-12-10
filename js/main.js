@@ -5,12 +5,10 @@ async function slidedata() {
         const swiperWrapper = document.querySelector('.swiper-wrapper');
         swiperWrapper.innerHTML = '';
         let count = 0;
-
         data.forEach(game => {
             if (count < 10) { 
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide';
-
                 slide.innerHTML = `
                   <a href="game-details.html?id=${game.id}" class="block">
                     <div class="bg-gray-800 rounded-lg p-4 text-white">
@@ -25,7 +23,6 @@ async function slidedata() {
                 count++;
             }
         });
-
         const swiper = new Swiper('.swiper', {
             effect: 'coverflow',
             slidesPerView: 1,
@@ -97,12 +94,10 @@ async function pcData() {
     const url = 'https://free-to-play-games-database.p.rapidapi.com/api/games?platform=pc&sort-by=release-date';
     try {
         const data = await fetchDataFromAPI(url); // Reuse the fetch function
-        const swiperPC = document.querySelector('.scrolling-pc');
-        
+        const swiperPC = document.querySelector('.scrolling-pc');     
         data.forEach(game => {
             const marque = document.createElement('div');
-            marque.className = 'card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0 mr';
-            
+            marque.className = 'card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0 mr';    
             marque.innerHTML = `
               <a href="game-details.html?id=${game.id}" class="block">
                 <img src="${game.thumbnail}" alt="Game Image" class="card-image w-full h-full object-cover">
