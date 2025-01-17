@@ -1,4 +1,3 @@
-
 async function gameplatform() {
     const url = `https://free-to-play-games-database.p.rapidapi.com/api/games`;
     try {
@@ -22,8 +21,6 @@ async function gameplatform() {
                 platform.textContent = plat;
                 gamecard.appendChild(platform);         
             }
-          
-
             else if(!genreSet .has(genre)){
                 genreSet.add(genre);
                 const cat = document.createElement('option');
@@ -31,7 +28,6 @@ async function gameplatform() {
                 cat.textContent = genre;
                 gamecat.appendChild(cat); 
             }
-     
             else if (!gameYear[yeardata]) {
                 gameYear[yeardata] = true;
                 const year = document.createElement('option');
@@ -60,12 +56,12 @@ async function gameplatform() {
                 params.set('category', selectedCat);
                 window.location.href = `games.html?${params.toString()}`;
             });
-
             gameyear.addEventListener('change', (event) => {
                 const selectedYear = event.target.value;
+                // console.log("Raw selectedYear:", selectedYear); // Debugging log
                 const url = new URL(window.location.href);
                 const params = new URLSearchParams(url.search);
-                params.set('year', selectedYear);
+                params.set('years', selectedYear);
                 window.location.href = `games.html?${params.toString()}`;
             });
         });
