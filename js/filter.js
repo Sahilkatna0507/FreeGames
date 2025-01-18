@@ -50,7 +50,6 @@ async function gameplatform() {
             });
             gamecat.addEventListener('change', (event) => {
                 const selectedCat = event.target.value;
-                
                 const url = new URL(window.location.href);
                 const params = new URLSearchParams(url.search);
                 params.set('category', selectedCat);

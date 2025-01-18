@@ -152,7 +152,6 @@ async function menuBrowserData() {
         const swiperPC = document.querySelector('.browsermenu');
         const genreSet = new Set();   
         data.forEach(game => {   
-         
             if (game.genre.toLowerCase() === 'fantasy') {
             }
             const genre = game.genre.toLowerCase();
