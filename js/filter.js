@@ -6,6 +6,7 @@ async function gameplatform() {
         const gamecard = document.querySelector('#platform');
         const gamecat = document.querySelector('#category_filter');
         const gameyear = document.querySelector('#release_year');
+        const sortby = document.querySelector('#sort_by');
         const  gamePlatform ={};
         const genreSet = new Set();  
         const gameYear ={};
@@ -37,8 +38,8 @@ async function gameplatform() {
             }
             gamecard.addEventListener('change', (event) => {
                 const selectedPlatform = event.target.value;
-                console.log("Raw selectedPlatform:", selectedPlatform); // Debugging log
-                console.log(selectedPlatform.toLowerCase());
+                // console.log("Raw selectedPlatform:", selectedPlatform); // Debugging log
+                // console.log(selectedPlatform.toLowerCase());
                 const url = new URL(window.location.href);
                 const params = new URLSearchParams(url.search);
                 if (selectedPlatform.toLowerCase().includes("web")) {
@@ -61,6 +62,14 @@ async function gameplatform() {
                 const url = new URL(window.location.href);
                 const params = new URLSearchParams(url.search);
                 params.set('years', selectedYear);
+                window.location.href = `games.html?${params.toString()}`;
+            });
+            sortby.addEventListener('change', (event) => {
+                const selectedSort = event.target.value;
+                // console.log("Raw selectedSort:", selectedSort); // Debugging log
+                const url = new URL(window.location.href);
+                const params = new URLSearchParams(url.search);
+                params.set('sort', selectedSort);
                 window.location.href = `games.html?${params.toString()}`;
             });
         });

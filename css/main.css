@@ -101,8 +101,7 @@
       .dropdown:hover .dropdown-content {
         display: block;
       }
-  
-      .navbar {
+  .navbar {
     background-color: black;
     color: white;
     position: sticky;

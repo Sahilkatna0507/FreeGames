@@ -7,7 +7,8 @@ async function fetchFilteredGames() {
     const platform = getQueryParam('platform') || "";
     const category = getQueryParam('category') || "";
     const year = getQueryParam('years') || "";
-
+    const sortby = getQueryParam('sort') || "";
+    console.log(platform, category, year, sortby);
     try {
         const url = `https://free-to-play-games-database.p.rapidapi.com/api/games`;
         const data = await fetchDataFromAPI(url);
@@ -18,10 +19,20 @@ async function fetchFilteredGames() {
             (category === "" || game.genre.toLowerCase().includes(category.toLowerCase())) &&
             (year === "" || new Date(game.release_date).getFullYear() == year)
         );
-
-        const totalItems = filteredData.length;
+        const sortedData = filteredData.sort((a, b) => {
+            if (sortby === "a-z") {
+                return a.title.localeCompare(b.title); // Alphabetical order
+            } else if (sortby === "z-a") {
+                return b.title.localeCompare(a.title); // Reverse alphabetical order
+            } else if (sortby === "new") {
+                return new Date(b.release_date) - new Date(a.release_date); // Newest first
+            } else if (sortby === "oldest") {
+                return new Date(a.release_date) - new Date(b.release_date); // Oldest first
+            }
+            return 0;
+        });
+        const totalItems = sortedData.length;
         const totalPages = Math.ceil(totalItems / itemsPerPage);
-
         function getCurrentPage() {
             const hash = window.location.hash.slice(1);
             const page = parseInt(hash) || 1;
@@ -32,7 +43,7 @@ async function fetchFilteredGames() {
             gamecard.innerHTML = "";
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
-            filteredData.slice(startIndex, endIndex).forEach(game => {
+            sortedData.slice(startIndex, endIndex).forEach(game => {
                 const card = document.createElement('div');
                 card.className = 'bg-gray-800 border border-gray-600 rounded-lg p-4';
                 card.innerHTML = `
