@@ -12,7 +12,6 @@ async function fetchFilteredGames() {
     try {
         const url = `https://free-to-play-games-database.p.rapidapi.com/api/games`;
         const data = await fetchDataFromAPI(url);
-
         const itemsPerPage = 12;
         const filteredData = data.filter(game => 
             (platform === "" || game.platform.toLowerCase().includes(platform.toLowerCase())) &&
@@ -21,13 +20,13 @@ async function fetchFilteredGames() {
         );
         const sortedData = filteredData.sort((a, b) => {
             if (sortby === "a-z") {
-                return a.title.localeCompare(b.title); // Alphabetical order
+                return a.title.localeCompare(b.title);
             } else if (sortby === "z-a") {
-                return b.title.localeCompare(a.title); // Reverse alphabetical order
+                return b.title.localeCompare(a.title); 
             } else if (sortby === "new") {
-                return new Date(b.release_date) - new Date(a.release_date); // Newest first
+                return new Date(b.release_date) - new Date(a.release_date);
             } else if (sortby === "oldest") {
-                return new Date(a.release_date) - new Date(b.release_date); // Oldest first
+                return new Date(a.release_date) - new Date(b.release_date);
             }
             return 0;
         });
@@ -60,7 +59,6 @@ async function fetchFilteredGames() {
         function createPaginationControls(currentPage) {
             const paginationContainer = document.querySelector('.pagination-controls');
             paginationContainer.innerHTML = "";
-
             if (currentPage > 1) {
                 const prevButton = document.createElement('a');
                 prevButton.href = `#${currentPage - 1}`;

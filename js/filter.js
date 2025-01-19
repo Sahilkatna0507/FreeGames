@@ -38,8 +38,6 @@ async function gameplatform() {
             }
             gamecard.addEventListener('change', (event) => {
                 const selectedPlatform = event.target.value;
-                // console.log("Raw selectedPlatform:", selectedPlatform); // Debugging log
-                // console.log(selectedPlatform.toLowerCase());
                 const url = new URL(window.location.href);
                 const params = new URLSearchParams(url.search);
                 if (selectedPlatform.toLowerCase().includes("web")) {
