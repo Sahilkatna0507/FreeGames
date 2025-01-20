@@ -36,44 +36,34 @@ async function gameplatform() {
                 year.textContent = yeardata;
                 gameyear.appendChild(year);
             }
-            gamecard.addEventListener('change', (event) => {
-                const selectedPlatform = event.target.value;
-                const url = new URL(window.location.href);
-                const params = new URLSearchParams(url.search);
-                if (selectedPlatform.toLowerCase().includes("web")) {
+    document.addEventListener('change', (event) => {
+        const targetId = event.target.id; // Get the ID of the dropdown that triggered the event
+        const selectedValue = event.target.value; // Get the selected value
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        switch (targetId) {
+            case 'platform': // Handle platform changes
+                if (selectedValue.toLowerCase().includes("web")) {
                     params.set('platform', 'browser');
                 } else {
-                    params.set('platform', selectedPlatform);
-                } 
-                window.location.href = `games.html?${params.toString()}`;
-            });
-            gamecat.addEventListener('change', (event) => {
-                const selectedCat = event.target.value;
-                const url = new URL(window.location.href);
-                const params = new URLSearchParams(url.search);
-                params.set('category', selectedCat);
-                window.location.href = `games.html?${params.toString()}`;
-            });
-            gameyear.addEventListener('change', (event) => {
-                const selectedYear = event.target.value;
-                // console.log("Raw selectedYear:", selectedYear); // Debugging log
-                const url = new URL(window.location.href);
-                const params = new URLSearchParams(url.search);
-                params.set('years', selectedYear);
-                window.location.href = `games.html?${params.toString()}`;
-            });
-            sortby.addEventListener('change', (event) => {
-                const selectedSort = event.target.value;
-                // console.log("Raw selectedSort:", selectedSort); // Debugging log
-                const url = new URL(window.location.href);
-                const params = new URLSearchParams(url.search);
-                params.set('sort', selectedSort);
-                window.location.href = `games.html?${params.toString()}`;
-            });
-        });
-    }
-    catch (error) {
-        console.error('Error during swiper initialization:', error);
+                    params.set('platform', selectedValue);
+                }
+                break;
+            case 'category_filter': // Handle category changes
+                params.set('category', selectedValue);
+                break;
+            case 'release_year': // Handle release year changes
+                params.set('years', selectedValue);
+                break;
+            case 'sort_by': // Handle sort by changes
+                params.set('sort', selectedValue);
+                break;
+        }
+        window.location.href = `games.html?${params.toString()}`;
+    });
+});
+    } catch (error) {
+        console.error('Error during initialization:', error);
     }
 }
 gameplatform();
