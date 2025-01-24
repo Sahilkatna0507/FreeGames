@@ -127,8 +127,6 @@ async function menupcData() {
             const genre = game.genre.toLowerCase();
             
             if (!genreMap[genre]) {
-                console.log("menu");
-                console.log(genre)
                 const pcButton = document.createElement('li');
                 pcButton.className = 'block px-4 py-2 hover:bg-gray-100';    
                 pcButton.innerHTML = `
@@ -167,6 +165,7 @@ async function menuBrowserData() {
     } catch (error) {
         console.error('Error during marquee initialization:', error);
     }
+
 }
 slidedata();
 browserData();
@@ -174,3 +173,15 @@ pcData();
 menupcData();
 menuBrowserData();
 // Call the function to fetch game details
+// Open Modal on Button Click
+document.getElementById("openModal").addEventListener("click", function () {
+    document.getElementById("modal").classList.remove("hidden");
+  });
+  
+  // Close Modal on Close Button or Cancel Button Click
+  document.querySelectorAll("#closeModal, #closeModalFooter").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      document.getElementById("modal").classList.add("hidden");
+    });
+  });
+  
