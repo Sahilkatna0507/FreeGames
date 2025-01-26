@@ -127,83 +127,92 @@
   const apiHost = 'free-to-play-games-database.p.rapidapi.com';
   const apiUrl = 'https://free-to-play-games-database.p.rapidapi.com/api/games';
 
-  const openModalBtn = document.getElementById('openModalBtn');
-  const closeModalBtn = document.getElementById('closeModalBtn');
-  const searchModal = document.getElementById('searchModal');
-  const searchInput = document.getElementById('searchInput');
-  const resultsContainer = document.getElementById('resultsContainer');
+  // Modal open button ko id ke zariye access karna
+const openModalBtn = document.getElementById('openModalBtn'); 
 
-  // Open Modal
-  openModalBtn.addEventListener('click', () => {
-    searchModal.style.display = 'flex';
+// Modal close button ko id ke zariye access karna
+const closeModalBtn = document.getElementById('closeModalBtn'); 
+
+// Modal element ko id ke zariye access karna
+const searchModal = document.getElementById('searchModal'); 
+
+// Search input ko id ke zariye access karna
+const searchInput = document.getElementById('searchInput'); 
+
+// Results container ko id ke zariye access karna, jaha search ke results dikhaye jayenge
+const resultsContainer = document.getElementById('resultsContainer'); 
+
+// Modal ko open karne ke liye event listener lagana
+openModalBtn.addEventListener('click', () => {
+  searchModal.style.display = 'flex'; // Modal ko visible karna
+});
+
+// Modal ko close karne ke liye event listener lagana
+closeModalBtn.addEventListener('click', () => {
+  searchModal.style.display = 'none'; // Modal ko invisible karna
+  searchInput.value = ''; // Input box ko reset karna
+  resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">Type at least 2 characters to search.</p>'; // Default message set karna
+});
+
+// Games ko fetch karne ke liye async function
+async function fetchGames() {
+  const response = await fetch(apiUrl, {
+    headers: {
+      'X-RapidAPI-Key': apiKey, // API key ka use karna
+      'X-RapidAPI-Host': apiHost // API host set karna
+    }
   });
+  return await response.json(); // JSON response ko return karna
+}
 
-  // Close Modal
-  closeModalBtn.addEventListener('click', () => {
-    searchModal.style.display = 'none';
-    searchInput.value = '';
-    resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">Type at least 2 characters to search.</p>';
+// Input query ke basis par games ko filter karna
+function handleSearch(games, query) {
+  return games.filter(game => {
+    const titleMatch = game.title.toLowerCase().includes(query); // Title me match check karna
+    const genreMatch = game.genre.toLowerCase().includes(query); // Genre me match check karna
+    const platformMatch = game.platform.toLowerCase().includes(query); // Platform me match check karna
+    return titleMatch || genreMatch || platformMatch; // Agar koi bhi match ho to return karna
   });
+}
 
-  // Fetch Games
-  async function fetchGames() {
-    const response = await fetch(apiUrl, {
-      headers: {
-        'X-RapidAPI-Key': apiKey,
-        'X-RapidAPI-Host': apiHost
-      }
-    });
-    return await response.json();
+// Filtered results ko render karne ke liye function
+function renderResults(games) {
+  if (games.length === 0) { // Agar koi result na ho
+    resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">No results found.</p>'; // No result message show karna
+    return;
   }
 
-  // Filter Games
-  function handleSearch(games, query) {
-    return games.filter(game => {
-      const titleMatch = game.title.toLowerCase().includes(query);
-      const genreMatch = game.genre.toLowerCase().includes(query);
-      const platformMatch = game.platform.toLowerCase().includes(query);
-      return titleMatch || genreMatch || platformMatch;
-    });
-  }
-
-  // Render Results
-  function renderResults(games) {
-    if (games.length === 0) {
-      resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">No results found.</p>';
-      return;
-    }
-
-    resultsContainer.innerHTML = '';
-    games.forEach(game => {
-      const gameItem = document.createElement('div');
-      gameItem.className = 'game-item';
-      gameItem.innerHTML = `
-        <img src="${game.thumbnail}" alt="${game.title}">
-        <div class="info">
-          <h4>${game.title}</h4>
-          <p>${game.genre}, ${game.platform}</p>
-        </div>
-      `;
-      resultsContainer.appendChild(gameItem);
-    });
-  }
-
-  // Handle Search Input
-  let gamesData = [];
-  searchInput.addEventListener('input', async (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    if (query.length < 2) {
-      resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">Type at least 2 characters to search.</p>';
-      return;
-    }
-
-    if (gamesData.length === 0) {
-      gamesData = await fetchGames();
-    }
-
-    const filteredGames = handleSearch(gamesData, query);
-    renderResults(filteredGames);
+  resultsContainer.innerHTML = ''; // Pehle se existing content ko clear karna
+  games.forEach(game => { // Har ek game ke liye
+    const gameItem = document.createElement('div'); // Ek naya div create karna
+    gameItem.className = 'game-item'; // Class set karna
+    gameItem.innerHTML = `
+      <img src="${game.thumbnail}" alt="${game.title}">
+      <div class="info">
+        <h4>${game.title}</h4>
+        <p>${game.genre}, ${game.platform}</p>
+      </div>
+    `; // Game ke details HTML me add karna
+    resultsContainer.appendChild(gameItem); // Result container me add karna
   });
+}
+
+// Search input ke changes handle karne ke liye event listener
+let gamesData = []; // Games data ko cache karne ke liye variable
+searchInput.addEventListener('input', async (e) => {
+  const query = e.target.value.trim().toLowerCase(); // User input ko lowercase me convert karna
+  if (query.length < 2) { // Agar input 2 characters se kam ho
+    resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">Type at least 2 characters to search.</p>'; // Default message show karna
+    return;
+  }
+
+  if (gamesData.length === 0) { // Agar games data load na hua ho
+    gamesData = await fetchGames(); // API se games ko fetch karna
+  }
+
+  const filteredGames = handleSearch(gamesData, query); // Filtered results ko fetch karna
+  renderResults(filteredGames); // Filtered results ko render karna
+});
 </script>
 
 </body>

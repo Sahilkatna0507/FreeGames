@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags and page title -->
+  <meta charset="UTF-8"> <!-- Specifies the character encoding for the document -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures the page is responsive on all devices -->
+  <title>Free Games List</title> <!-- Title of the page -->
+
+  <style>
+    /* Basic styling for the page */
+    body {
+      font-family: Arial, sans-serif; /* Sets the font style */
+      margin: 20px; /* Adds spacing around the page content */
+      text-align: center; /* Centers the content */
+    }
+
+    /* Styling for the game grid container */
+    #gameGrid {
+      display: grid; /* Uses a grid layout */
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates a responsive grid */
+      gap: 20px; /* Adds spacing between grid items */
+      margin-top: 20px; /* Adds space above the grid */
+    }
+
+    /* Styling for individual game cards */
+    .game-card {
+      border: 1px solid #ddd; /* Adds a light border */
+      border-radius: 10px; /* Rounds the corners */
+      padding: 10px; /* Adds internal spacing */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow effect */
+      transition: transform 0.2s; /* Smooth transition for hover effect */
+    }
+
+    /* Hover effect for game cards */
+    .game-card:hover {
+      transform: scale(1.05); /* Slightly enlarges the card on hover */
+    }
+
+    /* Styling for images inside the game cards */
+    .game-card img {
+      width: 100%; /* Makes the image take full width */
+      height: 150px; /* Sets a fixed height */
+      object-fit: cover; /* Ensures the image covers the area without distortion */
+      border-radius: 10px; /* Rounds the corners of the image */
+    }
+
+    /* Styling for the game card info section */
+    .game-card .info {
+      margin-top: 10px; /* Adds space above the info section */
+    }
+
+    /* Styling for game titles */
+    .game-card h4 {
+      margin: 0; /* Removes default margin */
+      font-size: 1.1em; /* Adjusts the font size */
+      color: #333; /* Sets a dark gray color */
+    }
+
+    /* Styling for game details (genre and platform) */
+    .game-card p {
+      margin: 5px 0 0; /* Adds spacing above the text */
+      font-size: 0.9em; /* Sets a smaller font size */
+      color: #666; /* Sets a lighter gray color */
+    }
+
+    /* Styling for the pagination container */
+    #pagination {
+      margin-top: 20px; /* Adds space above the pagination */
+    }
+
+    /* Styling for pagination buttons */
+    #pagination button {
+      margin: 0 5px; /* Adds spacing between buttons */
+      padding: 5px 10px; /* Adds padding inside buttons */
+      border: 1px solid #ddd; /* Adds a light border */
+      border-radius: 5px; /* Rounds the button corners */
+      background-color: #fff; /* Sets a white background */
+      cursor: pointer; /* Shows a pointer cursor on hover */
+      transition: background-color 0.2s; /* Smooth transition for hover effect */
+    }
+
+    /* Hover effect for pagination buttons */
+    #pagination button:hover {
+      background-color: #f0f0f0; /* Changes background color on hover */
+    }
+
+    /* Styling for the active pagination button */
+    #pagination button.active {
+      background-color: #007BFF; /* Sets a blue background for the active button */
+      color: #fff; /* Sets white text color */
+      border-color: #007BFF; /* Matches border color with background */
+      cursor: default; /* Disables pointer cursor for active button */
+    }
+
+    /* Styling for ellipses in pagination */
+    #pagination span {
+      margin: 0 5px; /* Adds spacing around ellipses */
+      font-weight: bold; /* Makes ellipses bold */
+    }
+  </style>
+</head>
+<body>
+  <h1>Free Games</h1> <!-- Main heading of the page -->
+  <div id="gameGrid"></div> <!-- Container for displaying game cards -->
+  <div id="pagination"></div> <!-- Container for displaying pagination buttons -->
+
+  <script>
+    // API configuration
+    const apiKey = 'ddc77ba17dmsh9757b4165dd8a04p179b34jsndb3e9fbbea77'; // API key for authentication
+    const apiHost = 'free-to-play-games-database.p.rapidapi.com'; // API host
+    const apiUrl = 'https://free-to-play-games-database.p.rapidapi.com/api/games'; // API endpoint
+
+    const itemsPerPage = 12; // Number of games to display per page
+    let currentPage = 1; // Current page number
+    let gamesData = []; // Array to store fetched game data
+
+    // Function to fetch games from the API
+    async function fetchGames() {
+      const response = await fetch(apiUrl, {
+        headers: {
+          'X-RapidAPI-Key': apiKey, // Sends the API key in the headers
+          'X-RapidAPI-Host': apiHost, // Sends the API host in the headers
+        },
+      });
+      return await response.json(); // Returns the parsed JSON response
+    }
+
+    // Function to render pagination with ellipses
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage); // Calculates the total number of pages
+      const paginationContainer = document.getElementById('pagination'); // Selects the pagination container
+      paginationContainer.innerHTML = ''; // Clears the container content
+
+      // Helper function to create a pagination button
+      const createButton = (page, isActive = false, isDisabled = false, text = null) => {
+        const button = document.createElement('button'); // Creates a button element
+        button.textContent = text || page; // Sets the button text
+        button.className = isActive ? 'active' : ''; // Adds 'active' class if the button is for the current page
+        button.disabled = isDisabled; // Disables the button if needed
+        button.addEventListener('click', () => { // Adds a click event listener
+          currentPage = page; // Updates the current page
+          renderGames(); // Renders the games for the new page
+        });
+        return button; // Returns the created button
+      };
+
+      // Add the first page button
+      paginationContainer.appendChild(createButton(1, currentPage === 1));
+
+      // Add ellipsis if the current page is far from the start
+      if (currentPage > 3) {
+        const ellipsis = document.createElement('span'); // Creates an ellipsis element
+        ellipsis.textContent = '...'; // Sets ellipsis text
+        paginationContainer.appendChild(ellipsis); // Adds it to the pagination container
+      }
+
+      // Add buttons for nearby pages
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+        paginationContainer.appendChild(createButton(i, currentPage === i));
+      }
+
+      // Add ellipsis if the current page is far from the end
+      if (currentPage < totalPages - 2) {
+        const ellipsis = document.createElement('span');
+        ellipsis.textContent = '...';
+        paginationContainer.appendChild(ellipsis);
+      }
+
+      // Add the last page button
+      paginationContainer.appendChild(createButton(totalPages, currentPage === totalPages));
+    }
+
+    // Function to render games for the current page
+    function renderGames() {
+      const startIndex = (currentPage - 1) * itemsPerPage; // Calculates the start index for the current page
+      const endIndex = startIndex + itemsPerPage; // Calculates the end index
+      const paginatedGames = gamesData.slice(startIndex, endIndex); // Slices the games data for the current page
+
+      const gameGrid = document.getElementById('gameGrid'); // Selects the game grid container
+      gameGrid.innerHTML = ''; // Clears the grid content
+
+      // Loops through the paginated games and creates game cards
+      paginatedGames.forEach((game) => {
+        const gameCard = document.createElement('div'); // Creates a div for the game card
+        gameCard.className = 'game-card'; // Adds the game card class
+        gameCard.innerHTML = `
+          <img src="${game.thumbnail}" alt="${game.title}"> <!-- Game thumbnail -->
+          <div class="info">
+            <h4>${game.title}</h4> <!-- Game title -->
+            <p>${game.genre}, ${game.platform}</p> <!-- Game genre and platform -->
+          </div>
+        `;
+        gameGrid.appendChild(gameCard); // Adds the game card to the grid
+      });
+
+      renderPagination(gamesData.length); // Renders the pagination
+    }
+
+    // Initializes the app
+    async function init() {
+      gamesData = await fetchGames(); // Fetches the games data
+      renderGames(); // Renders the games and pagination
+    }
+
+    init(); // Calls the init function to start the app
+  </script>
+</body>
+</html>
