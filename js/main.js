@@ -1,7 +1,10 @@
+
+async function main() {
+
 const url = 'https://free-to-play-games-database.p.rapidapi.com/api/games?sort-by=release-date';
-async function slidedata() {
+const data =  await fetchDataFromAPI(url);
+function slidedata() {
     try {
-        const data = await fetchDataFromAPI(url); // Use the reusable function
         const swiperWrapper = document.querySelector('.swiper-wrapper');
         swiperWrapper.innerHTML = '';
         let count = 0;
@@ -61,15 +64,12 @@ async function slidedata() {
         console.error('Error during swiper initialization:', error);
     }
 }
-async function fetchGameData(platform, containerSelector) {
-    const url = `https://free-to-play-games-database.p.rapidapi.com/api/games?platform=${platform}&sort-by=release-date`;
+function fetchGameData(platform, containerSelector) {
     try {
-        const data = await fetchDataFromAPI(url); // Reuse the fetch function
         const container = document.querySelector(containerSelector); // Container based on platform
         data.forEach(game => {
             const marque = document.createElement('div');
-            marque.className = 'card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0 mr';
-            
+            marque.className = 'card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0 mr';     
             marque.innerHTML = `
               <a href="game-details.html?id=${game.id}" class="block">
                 <img src="${game.thumbnail}" alt="Game Image" class="card-image w-full h-full object-cover">
@@ -93,10 +93,8 @@ fetchGameData('browser', '.scrolling-wrapper'); // For browser games
 fetchGameData('pc', '.scrolling-pc'); // For PC games
 
 
-async function menuData(platform, containerSelector) {
-    const url = `https://free-to-play-games-database.p.rapidapi.com/api/games?platform=${platform}&sort-by=release-date`;
+ function menuData(platform, containerSelector) {
     try {
-        const data = await fetchDataFromAPI(url); // Reuse the fetch function
         const swiperPC = document.querySelector(containerSelector);
         const genreMap = {};  
         data.forEach(game => {     
@@ -121,14 +119,68 @@ menuData('pc' ,'.pcmenu');
 menuData( 'browser','.browsermenu');
 slidedata();
 
-document.getElementById("openModal").addEventListener("click", function () {
-    document.getElementById("modal").classList.remove("hidden");
-  });
-  
-  // Close Modal on Close Button or Cancel Button Click
-  document.querySelectorAll("#closeModal, #closeModalFooter").forEach((btn) => {
-    btn.addEventListener("click", function () {
-      document.getElementById("modal").classList.add("hidden");
+
+//search fnctionality
+
+const openModalBtn = document.getElementById('openModalBtn'); 
+const closeModalBtn = document.getElementById('closeModalBtn'); 
+const searchModal = document.getElementById('searchModal'); 
+const searchInput = document.getElementById('searchInput'); 
+const resultsContainer = document.getElementById('resultsContainer'); 
+
+openModalBtn.addEventListener('click', () => {
+searchModal.style.display = 'flex'; 
+});
+
+closeModalBtn.addEventListener('click', () => {
+    searchModal.style.display = 'none'; 
+    searchInput.value = ''; 
+});
+
+let gamesData = []; 
+searchInput.addEventListener('input', async (e) => {
+const query = e.target.value.trim().toLowerCase();
+console.log(query);
+if (query.length < 1) { 
+  resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">Type at least 2 characters to search.</p>'; // Default message show karna
+  return;
+}
+
+if (gamesData.length === 0) { // Agar games data load na hua ho
+    gamesData =data; // API se games ko fetch karna
+  }
+  const filteredGames = handleSearch(gamesData, query);
+  console.log(filteredGames);
+  renderResults(filteredGames); 
+});
+  function handleSearch(games, query) {
+    return games.filter(game => {
+      const titleMatch = game.title.toLowerCase().includes(query); // Title me match check karna
+      const genreMatch = game.genre.toLowerCase().includes(query); // Genre me match check karna
+      const platformMatch = game.platform.toLowerCase().includes(query); // Platform me match check karna
+      return titleMatch || genreMatch || platformMatch; // Agar koi bhi match ho to return karna
     });
-  });
-  
+}
+function renderResults(games) {
+    if (games.length === 0) { // Agar koi result na ho
+      resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">No results found.</p>'; // No result message show karna
+      return;
+    } 
+    resultsContainer.innerHTML = ''; // Pehle se existing content ko clear karna
+    games.forEach(game => { // Har ek game ke liye
+      const gameItem = document.createElement('div'); // Ek naya div create karna
+      gameItem.className = 'game-item'; // Class set karna
+      gameItem.innerHTML = `
+        <img src="${game.thumbnail}" alt="${game.title}">
+        <div class="info">
+          <h4>${game.title}</h4>
+          <p>${game.genre}, ${game.platform}</p>
+        </div>
+      `; // Game ke details HTML me add karna
+      resultsContainer.appendChild(gameItem); // Result container me add karna
+    });
+    }
+}
+
+
+main();
