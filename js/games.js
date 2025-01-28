@@ -8,7 +8,6 @@ async function fetchFilteredGames() {
     const category = getQueryParam('category') || "";
     const year = getQueryParam('years') || "";
     const sortby = getQueryParam('sort') || "";
-    console.log(platform, category, year, sortby);
     try {
         const url = `https://free-to-play-games-database.p.rapidapi.com/api/games`;
         const data = await fetchDataFromAPI(url);

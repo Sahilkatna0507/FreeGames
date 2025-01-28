@@ -30,6 +30,7 @@ async function gameplatform() {
             else if (!gameYear[yeardata]) {
                 gameYear[yeardata] = true;
                 const year = document.createElement('option');
+                const test= yeardata;
                 year.value = yeardata; 
                 year.textContent = yeardata;
                 gameyear.appendChild(year);
@@ -58,8 +59,7 @@ async function gameplatform() {
                 params.set('sort', selectedValue);
                 break;
         }
-        window.location.href = `games.html?${params.toString()}`;
-   
+        window.location.href = `games.html?${params.toString()}`;   
 });
     } catch (error) {
         console.error('Error during initialization:', error);

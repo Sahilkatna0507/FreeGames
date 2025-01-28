@@ -1,15 +1,13 @@
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams.get(param));
     return urlParams.get(param);
 }
 async function gameIdData() {
         const gameid = getQueryParam('id') || ""; 
-        console.log(gameid);
+
         const aurl = `https://free-to-play-games-database.p.rapidapi.com/api/game?id=${gameid}`;
         try {
             const data = await fetchDataFromAPI(aurl); 
-            console.log(data);
             const title= data.title;
             const short_description= data.short_description;
             const description= data.description;

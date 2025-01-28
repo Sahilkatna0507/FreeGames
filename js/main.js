@@ -140,7 +140,7 @@ closeModalBtn.addEventListener('click', () => {
 let gamesData = []; 
 searchInput.addEventListener('input', async (e) => {
 const query = e.target.value.trim().toLowerCase();
-console.log(query);
+
 if (query.length < 1) { 
   resultsContainer.innerHTML = '<p style="text-align: center; color: #555;">Type at least 2 characters to search.</p>'; // Default message show karna
   return;
@@ -150,8 +150,10 @@ if (gamesData.length === 0) { // Agar games data load na hua ho
     gamesData =data; // API se games ko fetch karna
   }
   const filteredGames = handleSearch(gamesData, query);
-  console.log(filteredGames);
-  renderResults(filteredGames); 
+  const abc =filteredGames.sort((a, b) => {
+        return a.title.localeCompare(b.title);
+  });
+  renderResults(abc); 
 });
   function handleSearch(games, query) {
     return games.filter(game => {
