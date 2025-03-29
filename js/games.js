@@ -2,7 +2,6 @@ function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 }
-
 async function fetchFilteredGames() {
     const platform = getQueryParam('platform') || "";
     const category = getQueryParam('category') || "";

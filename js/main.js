@@ -68,6 +68,7 @@ function fetchGameData(platform, containerSelector) {
     try {
         const container = document.querySelector(containerSelector); // Container based on platform
         data.forEach(game => {
+            console.log(game);
             const marque = document.createElement('div');
             marque.className = 'card w-1/4 h-80 relative overflow-hidden rounded-lg shadow-lg flex-shrink-0 mr';     
             marque.innerHTML = `
@@ -75,9 +76,10 @@ function fetchGameData(platform, containerSelector) {
                 <img src="${game.thumbnail}" alt="Game Image" class="card-image w-full h-full object-cover">
                 <div class="card-content absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 opacity-0 transition duration-500">
                     <h3 class="text-xl font-bold mb-2">${game.title}</h3>
-                    <p>${game.genre}</p>
+                    <p class="test_desc">${game.short_description}</p>
+                    <p class="text-sm font-semibold mt-2">${game.genre}</p>
                     <p>${game.platform}</p>
-                    <p>${game.release_date}</p>
+
                 </div>
               </a>
             `;

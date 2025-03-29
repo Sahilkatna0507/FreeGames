@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .game-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .game-list li {
+            background: #f4f4f4;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+        .main h2 {
+            font-weight: 800;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+        .main h2:hover {
+            background-color: lightgray;
+        }
+        .alpha {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Game List</h2>
+    <div class="flex gap-2 flex-wrap alpha mt-3 main" id="alphabetFilter">
+        <!-- Alphabet Buttons -->
+    </div>
+    <ul class="game-list" id="gameList"></ul>
+    
+    <script>
+        const games = [
+            {"id":582,"title":"Tarisland","genre":"MMORPG"},
+            {"id":540,"title":"Overwatch 2","genre":"Shooter"},
+            {"id":516,"title":"PUBG: BATTLEGROUNDS","genre":"Shooter"},
+            {"id":508,"title":"Enlisted","genre":"Shooter"},
+            {"id":345,"title":"Forge of Empires","genre":"Strategy"},
+            {"id":604,"title":"FragPunk","genre":"Shooter"},
+            {"id":590,"title":"Throne And Liberty","genre":"MMORPG"},
+            {"id":475,"title":"Genshin Impact","genre":"Action RPG"},
+            {"id":523,"title":"Fall Guys","genre":"Battle Royale"},
+            {"id":340,"title":"Game Of Thrones Winter Is Coming","genre":"Strategy"},
+            {"id":347,"title":"Elvenar","genre":"Strategy"},
+            {"id":11,"title":"Neverwinter","genre":"MMORPG"}
+        ];
+
+        const gameList = document.getElementById("gameList");
+        const alphabetFilter = document.getElementById("alphabetFilter");
+
+        // Create alphabet buttons dynamically
+        const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        alphabets.forEach(letter => {
+            const h2 = document.createElement("h2");
+            h2.textContent = letter;
+            h2.classList.add("leading-8", "cursor-pointer", "w-fit", "text-black");
+            h2.addEventListener("click", () => filterGames(letter));
+            alphabetFilter.appendChild(h2);
+        });
+
+        function displayGames(filteredGames) {
+            gameList.innerHTML = ""; // Clear previous list
+            filteredGames.forEach(game => {
+                const li = document.createElement("li");
+                li.textContent = `${game.title} - ${game.genre}`;
+                gameList.appendChild(li);
+            });
+        }
+
+        // Function to filter games by selected letter
+        function filterGames(letter) {
+            const filteredGames = games.filter(game => game.title.toUpperCase().startsWith(letter));
+            displayGames(filteredGames);
+        }
+        displayGames(games);
+    </script>
+</body>
+</html>
