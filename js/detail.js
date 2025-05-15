@@ -4,7 +4,6 @@ function getQueryParam(param) {
 }
 async function gameIdData() {
         const gameid = getQueryParam('id') || ""; 
-
         const aurl = `https://free-to-play-games-database.p.rapidapi.com/api/game?id=${gameid}`;
         try {
             const data = await fetchDataFromAPI(aurl); 
