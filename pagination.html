@@ -5,7 +5,6 @@
   <meta charset="UTF-8"> <!-- Specifies the character encoding for the document -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures the page is responsive on all devices -->
   <title>Free Games List</title> <!-- Title of the page -->
-
   <style>
     /* Basic styling for the page */
     body {
@@ -89,7 +88,6 @@
       border-color: #007BFF; /* Matches border color with background */
       cursor: default; /* Disables pointer cursor for active button */
     }
-
     /* Styling for ellipses in pagination */
     #pagination span {
       margin: 0 5px; /* Adds spacing around ellipses */
@@ -101,7 +99,6 @@
   <h1>Free Games</h1> <!-- Main heading of the page -->
   <div id="gameGrid"></div> <!-- Container for displaying game cards -->
   <div id="pagination"></div> <!-- Container for displaying pagination buttons -->
-
   <script>
     // API configuration
     const apiKey = 'ddc77ba17dmsh9757b4165dd8a04p179b34jsndb3e9fbbea77'; // API key for authentication
@@ -128,7 +125,6 @@
       const totalPages = Math.ceil(totalItems / itemsPerPage); // Calculates the total number of pages
       const paginationContainer = document.getElementById('pagination'); // Selects the pagination container
       paginationContainer.innerHTML = ''; // Clears the container content
-
       // Helper function to create a pagination button
       const createButton = (page, isActive = false, isDisabled = false, text = null) => {
         const button = document.createElement('button'); // Creates a button element
@@ -144,14 +140,12 @@
 
       // Add the first page button
       paginationContainer.appendChild(createButton(1, currentPage === 1));
-
       // Add ellipsis if the current page is far from the start
       if (currentPage > 3) {
         const ellipsis = document.createElement('span'); // Creates an ellipsis element
         ellipsis.textContent = '...'; // Sets ellipsis text
         paginationContainer.appendChild(ellipsis); // Adds it to the pagination container
       }
-
       // Add buttons for nearby pages
       for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
         paginationContainer.appendChild(createButton(i, currentPage === i));
